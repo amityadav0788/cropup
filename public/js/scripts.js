@@ -58,18 +58,45 @@ window.addEventListener('DOMContentLoaded', event => {
 
 });
 
-// Your web app's Firebase configuration
-  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-  var firebaseConfig = {
-    apiKey: "AIzaSyDdPkVIS6msX9oj-dRCv9JchW0OLhZvozU",
-    authDomain: "alois-be745.firebaseapp.com",
-    databaseURL: "https://alois-be745-default-rtdb.asia-southeast1.firebasedatabase.app",
-    projectId: "alois-be745",
-    storageBucket: "alois-be745.appspot.com",
-    messagingSenderId: "276341237867",
-    appId: "1:276341237867:web:45b147ba686b03fdeee92e",
-    measurementId: "G-WC74NEEDZT"
+  var config = {
+    apiKey: "AIzaSyCgtYutCBeRBu_Lb2cdhcZRCxOVyGJ4hw8-dRCv9JchW0OLhZvozU",
+    authDomain: "cropup-8866a.firebaseapp.com",
+    
+    databaseURL: "https://cropup-8866a-default-rtdb.asia-southeast1.firebasedatabase.app/",
+    storageBucket: "cropup-8866a.appspot.com"
   };
-  // Initialize Firebase
-  firebase.initializeApp(firebaseConfig);
-  firebase.analytics();
+  firebase.initializeApp(config);
+
+  // Get a reference to the database service
+  var database = firebase.database();
+
+// var messagesRef = firebase.firestore();
+
+document
+  .getElementById('contactForm')
+  .addEventListener('submit', formSubmit);
+
+  function formSubmit(e) {
+    e.preventDefault();
+
+  let name = document.querySelector('#name').value;
+  let email = document.querySelector('#email').value;
+  let phone = document.querySelector('#phone').value;
+  let message = document.querySelector('#message').value;
+
+  var id = "id" + Math.random()
+  firebase.database().ref('data').set({
+    name: name,
+    email: email,
+    phone: phone,
+    message: message
+  }).then(() => {
+        document.getElementById('submitMessage').innerHTML = "Form submission successful! We will get back to you.";
+        document.getElementById('submitButton').style.visibility = 'hidden'
+    })
+    .catch(() => {
+        document.getElementById('submitMessage').innerHTML = "Error sending message!";
+        document.getElementById('submitButton').style.visibility = 'hidden'
+    });
+  
+}
